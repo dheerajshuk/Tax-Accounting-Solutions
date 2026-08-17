@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Manrope', sans-serif; background: oklch(98% 0.006 75); color: oklch(22% 0.02 260); text-wrap: pretty; }
+  a { color: oklch(40% 0.13 258); text-decoration: none; }
+  a:hover { color: oklch(30% 0.11 258); }
+
+  .hamburger { display: none; }
+  @media (max-width: 1150px) {
+    .nav-desktop { display: none !important; }
+    .header-cta { display: none !important; }
+    .hamburger { display: flex !important; }
+    .topbar-addr { display: none !important; }
+    .grid-2 { grid-template-columns: 1fr !important; gap: 28px !important; }
+    h1 { font-size: 27px !important; }
+  }
+
+</style>
+</helmet>
+
+<div>
+  <dc-import name="SiteHeader" hint-size="100%,110px"></dc-import>
+
+  <section class="grid-2" style="max-width:1000px; margin:0 auto; padding:48px 24px 24px; display:grid; grid-template-columns:1.05fr 0.95fr; gap:36px; align-items:center;">
+    <div>
+      <div style="color:oklch(40% 0.13 258); font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">All Services</div>
+      <h1 style="font-size:34px; font-weight:800; margin:0 0 14px; line-height:1.15;">Every service to keep your business compliant</h1>
+      <p style="color:oklch(48% 0.02 260); font-size:15.5px; line-height:1.6;">Browse by category, open any service for documents, process and FAQs — or message us on WhatsApp for a free consultation.</p>
+    </div>
+    <div style="position:relative; height:240px;">
+      <image-slot id="services-hero" src="img/hero-services.png" shape="rounded" radius="16" placeholder="Drop an office / consulting photo"></image-slot>
+    </div>
+  </section>
+
+  <section style="max-width:1000px; margin:0 auto; padding:20px 24px 80px;">
+    <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="4">
+      <div style="margin-bottom:36px;">
+        <div style="font-weight:800; font-size:14px; letter-spacing:0.06em; text-transform:uppercase; color:oklch(40% 0.13 258); margin-bottom:16px;">{{ cat.name }}</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px;">
+          <sc-for list="{{ cat.items }}" as="svc" hint-placeholder-count="2">
+            <a href="service.html?slug={{ svc.slug }}" style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:10px;" style-hover="box-shadow:0 16px 30px -18px oklch(30% 0.02 260 / 0.3); transform:translateY(-2px);">
+              <div style="width:38px; height:38px; border-radius:9px; background:{{ svc.tint }}; display:flex; align-items:center; justify-content:center;">
+                <div style="width:14px; height:14px; border-radius:{{ svc.shape }}; background:{{ svc.dot }};"></div>
+              </div>
+              <div style="font-weight:700; font-size:15.5px; color:oklch(22% 0.02 260);">{{ svc.title }}</div>
+              <div style="font-size:13px; color:oklch(48% 0.02 260); line-height:1.5;">{{ svc.longDesc }}</div>
+              <div style="font-size:13px; font-weight:700; color:oklch(40% 0.13 258); margin-top:4px;">View details →</div>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <footer style="background:oklch(18% 0.015 260); color:oklch(75% 0.02 260); padding:32px 24px; text-align:center; font-size:13px;">
+    <div>© 2026 Tax &amp; Accounting Solutions · <a href="tel:+918860977444" style="color:inherit; font-weight:700;">088609 77444</a></div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const services = [
+        { slug: "gst-registration-filing", title: "GST Registration & Filing", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "4px",
+          longDesc: "We handle new GST registration end-to-end and file your monthly, quarterly, or annual returns accurately and on time — avoiding penalties and interest.",
+          includes: ["New GST registration", "GSTR-1 / 3B filing", "Annual return (GSTR-9)"] },
+        { slug: "income-tax-itr-filing", title: "Income Tax / ITR Filing", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "999px",
+          longDesc: "ITR filing for salaried individuals, professionals, and businesses, with every eligible deduction claimed to legally minimize your tax outgo.",
+          includes: ["ITR-1 to ITR-7", "Capital gains reporting", "Advance tax planning"] },
+        { slug: "company-registration", title: "Company Registration", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "4px",
+          longDesc: "Incorporate a Private Limited Company, LLP or One Person Company with all ROC filings, DIN and PAN/TAN handled for you.",
+          includes: ["Pvt Ltd / LLP / OPC", "DIN & DSC", "PAN, TAN & bank setup"] },
+        { slug: "trademark-ip", title: "Trademark & IP", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "999px",
+          longDesc: "Protect your brand name and logo with a thorough trademark search, filing, and objection or hearing representation if raised.",
+          includes: ["Trademark search & filing", "Objection reply", "Renewal tracking"] },
+        { slug: "accounting-bookkeeping", title: "Accounting & Bookkeeping", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "4px",
+          longDesc: "Monthly bookkeeping, bank reconciliation, and financial statement preparation so your books stay clean and audit-ready year-round.",
+          includes: ["Monthly bookkeeping", "Bank reconciliation", "P&L and balance sheet"] },
+        { slug: "payroll-services", title: "Payroll Services", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "999px",
+          longDesc: "Accurate monthly salary processing including PF, ESI, professional tax and payslip generation for your entire team.",
+          includes: ["Salary processing", "PF / ESI compliance", "Payslips & Form 16"] },
+        { slug: "auditing", title: "Auditing", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "4px",
+          longDesc: "Statutory, internal and tax audits carried out by qualified professionals, with clear reporting on gaps and fixes.",
+          includes: ["Statutory audit", "Internal audit", "Tax audit (44AB)"] },
+        { slug: "tds-filing", title: "TDS Filing", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "999px",
+          longDesc: "TDS return preparation, quarterly filing, and correction statements — filed on time to avoid late fees and interest.",
+          includes: ["Quarterly TDS returns", "Form 16/16A generation", "Correction filings"] },
+        { slug: "msme-startup-registration", title: "MSME / Startup Registration", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "4px",
+          longDesc: "Register under MSME Udyam or Startup India to unlock government schemes, subsidies, and easier access to credit.",
+          includes: ["Udyam registration", "Startup India recognition", "Scheme eligibility guidance"] },
+        { slug: "tax-notice-assessment", title: "Tax Notice & Assessment", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "999px",
+          longDesc: "Received a GST or income tax notice? We draft the reply, represent you in assessment proceedings, and work to minimize penalties.",
+          includes: ["Notice reply drafting", "Assessment representation", "Appeal filing"] },
+    ];
+    return {
+      services,
+      categories: [
+        { name: "Registration", items: [services[2], services[8], services[3]] },
+        { name: "GST", items: [services[0]] },
+        { name: "Income Tax", items: [services[1], services[7]] },
+        { name: "Compliance", items: [services[9], services[6]] },
+        { name: "Accounting", items: [services[4], services[5]] },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

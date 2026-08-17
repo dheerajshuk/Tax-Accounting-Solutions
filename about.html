@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Manrope', sans-serif; background: oklch(98% 0.006 75); color: oklch(22% 0.02 260); text-wrap: pretty; }
+  a { color: oklch(40% 0.13 258); text-decoration: none; }
+  a:hover { color: oklch(30% 0.11 258); }
+
+  .hamburger { display: none; }
+  @media (max-width: 1150px) {
+    .nav-desktop { display: none !important; }
+    .header-cta { display: none !important; }
+    .hamburger { display: flex !important; }
+    .topbar-addr { display: none !important; }
+    .grid-2 { grid-template-columns: 1fr !important; gap: 28px !important; }
+    h1 { font-size: 27px !important; }
+  }
+
+  .stripe-ph { background: repeating-linear-gradient(135deg, oklch(93% 0.01 260) 0 10px, oklch(96% 0.008 260) 10px 20px); display:flex; align-items:center; justify-content:center; color: oklch(55% 0.02 260); font-family: monospace; font-size: 13px; text-align:center; }
+</style>
+</helmet>
+
+<div>
+  <dc-import name="SiteHeader" hint-size="100%,110px"></dc-import>
+
+  <section class="grid-2" style="max-width:1000px; margin:0 auto; padding:64px 24px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;">
+    <div>
+      <div style="color:oklch(40% 0.13 258); font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">Who We Are</div>
+      <h1 style="font-size:34px; font-weight:800; margin:0 0 16px;">Your compliance partner in Ghaziabad &amp; Noida</h1>
+      <p style="font-size:15.5px; line-height:1.7; color:oklch(45% 0.02 260);">Tax &amp; Accounting Solutions helps individuals and businesses stay compliant and financially organized — from GST and income tax filing to company registration, trademarks, payroll and audits — all handled by one dedicated local team.</p>
+    </div>
+    <div style="position:relative; height:240px;"><image-slot id="about-office" src="img/about-office.png" shape="rounded" radius="16" placeholder="Drop an office or team photo"></image-slot></div>
+  </section>
+
+  <section style="max-width:1000px; margin:0 auto; padding:0 24px 64px; display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px;">
+    <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+      <div style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:14px; padding:20px; text-align:center;">
+        <div style="font-size:24px; font-weight:800; color:oklch(40% 0.13 258);">{{ s.value }}</div>
+        <div style="font-size:12.5px; color:oklch(48% 0.02 260); font-weight:600; margin-top:4px;">{{ s.label }}</div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section style="background:white; border-top:1px solid oklch(90% 0.01 260); border-bottom:1px solid oklch(90% 0.01 260); padding:64px 24px;">
+    <div style="max-width:1000px; margin:0 auto;">
+      <h2 style="font-size:26px; font-weight:800; margin:0 0 24px;">Our Mission</h2>
+      <p style="font-size:15px; line-height:1.75; color:oklch(45% 0.02 260); max-width:700px;">To simplify legal and financial processes for individuals and businesses across Ghaziabad and Noida — with fast, transparent, and affordable CA services, so our clients can focus on growth instead of paperwork.</p>
+    </div>
+  </section>
+
+  <section style="max-width:1000px; margin:0 auto; padding:64px 24px; text-align:center;">
+    <h2 style="font-size:26px; font-weight:800; margin:0 0 20px;">Have a question before you start?</h2>
+    <div style="display:flex; gap:12px; justify-content:center;">
+      <a href="https://wa.me/918860977444?text=Hello%2C%20I%20need%20help" target="_blank" style="background:oklch(58% 0.14 150); color:white; font-weight:700; font-size:14px; padding:12px 22px; border-radius:9px;">Chat on WhatsApp</a>
+      <a href="tel:+918860977444" style="background:oklch(40% 0.13 258); color:white; font-weight:700; font-size:14px; padding:12px 22px; border-radius:9px;">Call 088609 77444</a>
+    </div>
+  </section>
+
+  <footer style="background:oklch(18% 0.015 260); color:oklch(75% 0.02 260); padding:32px 24px; text-align:center; font-size:13px;">
+    <div>© 2026 Tax &amp; Accounting Solutions · <a href="tel:+918860977444" style="color:inherit; font-weight:700;">088609 77444</a></div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      stats: [
+        { value: "4.8★", label: "Justdial Rating" },
+        { value: "155+", label: "Verified Reviews" },
+        { value: "10+", label: "Core Services" },
+        { value: "100%", label: "Compliance Focus" },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

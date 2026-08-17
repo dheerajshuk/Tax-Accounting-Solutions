@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Manrope', sans-serif; background: oklch(98% 0.006 75); color: oklch(22% 0.02 260); text-wrap: pretty; }
+  a { color: oklch(40% 0.13 258); text-decoration: none; }
+  a:hover { color: oklch(30% 0.11 258); }
+
+  .hamburger { display: none; }
+  @media (max-width: 1150px) {
+    .nav-desktop { display: none !important; }
+    .header-cta { display: none !important; }
+    .hamburger { display: flex !important; }
+    .topbar-addr { display: none !important; }
+    .grid-2 { grid-template-columns: 1fr !important; gap: 28px !important; }
+    h1 { font-size: 27px !important; }
+  }
+
+</style>
+</helmet>
+
+<div>
+  <dc-import name="SiteHeader" hint-size="100%,110px"></dc-import>
+
+  <sc-if value="{{ notFound }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:700px; margin:0 auto; padding:80px 24px; text-align:center;">
+      <div style="font-weight:800; font-size:24px; margin-bottom:10px;">Service not found</div>
+      <a href="services.html" style="font-weight:700;">← Browse all services</a>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ found }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section style="background:oklch(30% 0.11 258); padding:48px 24px 64px;">
+        <div style="max-width:900px; margin:0 auto; color:white;">
+          <div style="font-size:13px; opacity:0.75; margin-bottom:14px;"><a href="index.html" style="color:white; opacity:0.8;">Home</a> / <a href="services.html" style="color:white; opacity:0.8;">Services</a> / {{ svc.title }}</div>
+          <h1 style="font-size:36px; font-weight:800; margin:0 0 14px;">{{ svc.title }}</h1>
+          <p style="font-size:16px; line-height:1.6; color:oklch(88% 0.02 260); max-width:620px;">{{ svc.longDesc }}</p>
+          <div style="display:flex; gap:12px; margin-top:24px;">
+            <a href="https://wa.me/918860977444?text=Hello%2C%20I%20need%20help%20with%20{{ svc.title }}" target="_blank" style="background:oklch(58% 0.14 150); color:white; font-weight:700; font-size:14px; padding:12px 20px; border-radius:9px;">Get a Free Quote</a>
+            <a href="tel:+918860977444" style="background:white; color:oklch(30% 0.11 258); font-weight:700; font-size:14px; padding:12px 20px; border-radius:9px;">Call 088609 77444</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid-2" style="max-width:900px; margin:0 auto; padding:48px 24px 0; display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+        <div>
+          <div style="font-weight:800; font-size:20px; margin-bottom:16px;">Our Process</div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <sc-for list="{{ steps }}" as="step" hint-placeholder-count="4">
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <div style="width:30px; height:30px; border-radius:999px; background:oklch(40% 0.13 258); color:white; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">{{ step.n }}</div>
+                <div style="font-size:14.5px; line-height:1.5; padding-top:3px;">{{ step.text }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800; font-size:20px; margin-bottom:16px;">Documents Required</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <sc-for list="{{ svc.documents }}" as="doc" hint-placeholder-count="4">
+              <div style="display:flex; gap:8px; align-items:flex-start; font-size:14px; background:white; border:1px solid oklch(90% 0.01 260); border-radius:10px; padding:12px 14px;">
+                <span style="color:oklch(58% 0.14 150); font-weight:800;">✓</span><span>{{ doc }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section style="max-width:900px; margin:0 auto; padding:48px 24px 72px;">
+        <div style="font-weight:800; font-size:20px; margin-bottom:16px;">Frequently Asked Questions</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <sc-for list="{{ svc.faqs }}" as="faq" hint-placeholder-count="3">
+            <div style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:10px; padding:16px 18px;">
+              <div style="font-weight:700; font-size:14.5px; margin-bottom:6px;">{{ faq.q }}</div>
+              <div style="font-size:13.5px; color:oklch(48% 0.02 260); line-height:1.55;">{{ faq.a }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="max-width:900px; margin:0 auto; padding:0 24px 72px;">
+        <div style="font-weight:800; font-size:18px; margin-bottom:16px;">Related Services</div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <sc-for list="{{ related }}" as="r" hint-placeholder-count="3">
+            <a href="service.html?slug={{ r.slug }}" style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:999px; padding:10px 16px; font-size:13.5px; font-weight:600;">{{ r.title }}</a>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <footer style="background:oklch(18% 0.015 260); color:oklch(75% 0.02 260); padding:32px 24px; text-align:center; font-size:13px;">
+    <div>© 2026 Tax &amp; Accounting Solutions · <a href="tel:+918860977444" style="color:inherit; font-weight:700;">088609 77444</a></div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SERVICES = [
+  { slug: "gst-registration-filing", title: "GST Registration & Filing",
+    longDesc: "We handle new GST registration end-to-end and file your monthly, quarterly, or annual returns accurately and on time — avoiding penalties and interest.",
+    documents: ["PAN & Aadhaar of proprietor/partners", "Business address proof", "Bank account statement/cancelled cheque", "Business registration certificate (if any)"],
+    steps: ["Share your business details & documents", "We verify documents and prepare the application", "Application filed on the GST portal", "GSTIN issued and returns scheduled"],
+    faqs: [
+      { q: "How long does GST registration take?", a: "Typically 3-7 working days once documents are verified and submitted." },
+      { q: "Do I need GST if I'm a small business?", a: "Registration is mandatory above the turnover threshold, or if you sell across states/online." },
+      { q: "What returns will I need to file?", a: "Most businesses file GSTR-1 and GSTR-3B monthly or quarterly, plus an annual return." },
+    ] },
+  { slug: "income-tax-itr-filing", title: "Income Tax / ITR Filing",
+    longDesc: "ITR filing for salaried individuals, professionals, and businesses, with every eligible deduction claimed to legally minimize your tax outgo.",
+    documents: ["PAN & Aadhaar", "Form 16 / salary slips", "Bank statements", "Investment & deduction proofs"],
+    steps: ["Share income & investment details", "We compute tax liability and check deductions", "Return prepared and shared for review", "Filed with acknowledgement provided"],
+    faqs: [
+      { q: "Which ITR form applies to me?", a: "Depends on your income sources — we identify the correct form (ITR-1 to ITR-7) for you." },
+      { q: "Can you help with old pending returns?", a: "Yes, we can file belated and revised returns for prior years." },
+      { q: "Will you help if I get a notice later?", a: "Yes, notice reply and assessment support is included." },
+    ] },
+  { slug: "company-registration", title: "Company Registration",
+    longDesc: "Incorporate a Private Limited Company, LLP or One Person Company with all ROC filings, DIN and PAN/TAN handled for you.",
+    documents: ["PAN & Aadhaar of directors", "Address proof of directors", "Registered office address proof", "Passport photos"],
+    steps: ["Choose company type & reserve name", "Prepare MOA/AOA and DSC/DIN", "File incorporation with ROC", "Receive certificate, PAN, TAN & bank setup help"],
+    faqs: [
+      { q: "Pvt Ltd, LLP or OPC — which is best?", a: "Depends on funding plans, liability & compliance appetite — we advise based on your goals." },
+      { q: "How long does incorporation take?", a: "Usually 7-10 working days from document submission." },
+      { q: "What compliance follows after registration?", a: "Annual ROC filings, audits and director KYC — we handle these too." },
+    ] },
+  { slug: "trademark-ip", title: "Trademark & IP",
+    longDesc: "Protect your brand name and logo with a thorough trademark search, filing, and objection or hearing representation if raised.",
+    documents: ["Logo/brand name to be registered", "Applicant ID proof", "Business proof (if applicable)", "Power of attorney (Form TM-48)"],
+    steps: ["Trademark search for conflicts", "Application filed under correct class", "Respond to any examination objection", "Registration certificate issued"],
+    faqs: [
+      { q: "How long is a trademark valid?", a: "10 years from filing, renewable indefinitely thereafter." },
+      { q: "What if my mark gets an objection?", a: "We draft and file the response and represent you at any hearing." },
+      { q: "Can I trademark just a logo?", a: "Yes, word marks and logo/device marks can be filed separately or together." },
+    ] },
+  { slug: "accounting-bookkeeping", title: "Accounting & Bookkeeping",
+    longDesc: "Monthly bookkeeping, bank reconciliation, and financial statement preparation so your books stay clean and audit-ready year-round.",
+    documents: ["Sales & purchase invoices", "Bank statements", "Expense receipts", "Previous year financials (if any)"],
+    steps: ["Set up your books & chart of accounts", "Monthly entries & bank reconciliation", "Review financial reports together", "Year-end statements prepared for filing"],
+    faqs: [
+      { q: "Can you work with my existing software?", a: "Yes, we support Tally, Zoho Books and most common platforms." },
+      { q: "How often will I get reports?", a: "Monthly P&L and balance sheet summaries by default." },
+      { q: "Is this useful for a very small business?", a: "Yes — clean books make loans, audits and tax filing far easier later." },
+    ] },
+  { slug: "payroll-services", title: "Payroll Services",
+    longDesc: "Accurate monthly salary processing including PF, ESI, professional tax and payslip generation for your entire team.",
+    documents: ["Employee list with salary structure", "Attendance/leave records", "PF & ESI registration details", "Bank details for salary transfer"],
+    steps: ["Set up employee salary structures", "Collect monthly attendance inputs", "Process payroll & statutory deductions", "Payslips issued, PF/ESI filed"],
+    faqs: [
+      { q: "Do you handle PF & ESI registration too?", a: "Yes, we can register and manage ongoing compliance." },
+      { q: "What if I have contractors, not employees?", a: "We can handle contractor payments and TDS separately." },
+      { q: "Is this available for teams under 10 people?", a: "Yes, payroll is available for teams of any size." },
+    ] },
+  { slug: "auditing", title: "Auditing",
+    longDesc: "Statutory, internal and tax audits carried out by qualified professionals, with clear reporting on gaps and fixes.",
+    documents: ["Books of accounts", "Bank statements", "Previous audit reports (if any)", "Statutory registration certificates"],
+    steps: ["Scope & audit plan finalized", "Fieldwork & document verification", "Findings discussed with management", "Final audit report issued"],
+    faqs: [
+      { q: "Is a tax audit mandatory for my business?", a: "Required above specified turnover limits under Section 44AB — we'll confirm applicability." },
+      { q: "How long does an audit take?", a: "Typically 1-3 weeks depending on business size and records readiness." },
+      { q: "Do you also do internal audits?", a: "Yes, for process and control reviews beyond statutory requirements." },
+    ] },
+  { slug: "tds-filing", title: "TDS Filing",
+    longDesc: "TDS return preparation, quarterly filing, and correction statements — filed on time to avoid late fees and interest.",
+    documents: ["TAN details", "Deductee PAN details", "Payment & deduction records", "Challan details"],
+    steps: ["Collect deduction & payment data", "Prepare quarterly TDS statement", "File return on the TRACES portal", "Form 16/16A issued to deductees"],
+    faqs: [
+      { q: "What happens if I miss a TDS deadline?", a: "Late fees and interest apply — we help minimize and manage any pending dues." },
+      { q: "Can you fix errors in a filed return?", a: "Yes, correction statements can be filed for most errors." },
+      { q: "Do I need to deduct TDS as a small business?", a: "Depends on payment type and threshold — we'll confirm your obligation." },
+    ] },
+  { slug: "msme-startup-registration", title: "MSME / Startup Registration",
+    longDesc: "Register under MSME Udyam or Startup India to unlock government schemes, subsidies, and easier access to credit.",
+    documents: ["Aadhaar of proprietor/authorized signatory", "PAN of business", "Business address proof", "Bank account details"],
+    steps: ["Confirm eligibility & category", "Prepare Udyam/Startup India application", "Application filed online", "Registration certificate issued"],
+    faqs: [
+      { q: "What benefits does MSME registration give?", a: "Priority lending, subsidies, and protection against delayed payments, among others." },
+      { q: "Is Startup India recognition different from MSME?", a: "Yes — Startup India offers tax benefits & funding access, MSME focuses on lending & scheme support." },
+      { q: "How long does registration take?", a: "Usually 1-3 working days for Udyam registration." },
+    ] },
+  { slug: "tax-notice-assessment", title: "Tax Notice & Assessment",
+    longDesc: "Received a GST or income tax notice? We draft the reply, represent you in assessment proceedings, and work to minimize penalties.",
+    documents: ["Copy of the notice received", "Relevant filed returns", "Supporting financial documents", "Prior correspondence (if any)"],
+    steps: ["Review the notice & identify the issue", "Gather supporting documents", "Draft & file the response", "Represent you through resolution"],
+    faqs: [
+      { q: "I got a GST notice — what should I do first?", a: "Send us a copy immediately — most notices have strict reply deadlines." },
+      { q: "Can penalties be reduced?", a: "Often yes, with a timely, well-documented response." },
+      { q: "Do you represent clients in person if needed?", a: "Yes, for assessments and hearings requiring representation." },
+    ] },
+];
+
+class Component extends DCLogic {
+  state = { slug: null };
+  componentDidMount() {
+    const params = new URLSearchParams(window.location.search);
+    this.setState({ slug: params.get("slug") || SERVICES[0].slug });
+  }
+  renderVals() {
+    const svc = SERVICES.find(s => s.slug === this.state.slug);
+    const related = SERVICES.filter(s => s.slug !== this.state.slug).slice(0, 3);
+    return {
+      found: !!svc,
+      notFound: this.state.slug !== null && !svc,
+      svc: svc || SERVICES[0],
+      steps: (svc || SERVICES[0]).steps.map((text, i) => ({ n: i + 1, text })),
+      related,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

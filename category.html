@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Manrope', sans-serif; background: oklch(98% 0.006 75); color: oklch(22% 0.02 260); text-wrap: pretty; }
+  a { color: oklch(40% 0.13 258); text-decoration: none; }
+  a:hover { color: oklch(30% 0.11 258); }
+
+  .hamburger { display: none; }
+  @media (max-width: 1150px) {
+    .nav-desktop { display: none !important; }
+    .header-cta { display: none !important; }
+    .hamburger { display: flex !important; }
+    .topbar-addr { display: none !important; }
+    .grid-2 { grid-template-columns: 1fr !important; gap: 28px !important; }
+    h1 { font-size: 27px !important; }
+  }
+
+</style>
+</helmet>
+
+<div>
+  <dc-import name="SiteHeader" hint-size="100%,110px"></dc-import>
+
+  <sc-if value="{{ found }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section style="background:oklch(30% 0.11 258); padding:48px 24px 60px;">
+        <div style="max-width:900px; margin:0 auto; color:white;">
+          <div style="font-size:13px; opacity:0.75; margin-bottom:14px;"><a href="index.html" style="color:white; opacity:0.8;">Home</a> / <a href="services.html" style="color:white; opacity:0.8;">Services</a> / {{ cat.name }}</div>
+          <h1 style="font-size:34px; font-weight:800; margin:0 0 12px;">{{ cat.name }}</h1>
+          <p style="font-size:15.5px; line-height:1.6; color:oklch(88% 0.02 260); max-width:600px;">{{ cat.intro }}</p>
+        </div>
+      </section>
+
+      <section style="max-width:900px; margin:0 auto; padding:40px 24px 0;">
+        <div style="position:relative; height:220px;">
+          <image-slot id="category-hero" src="img/hero-category.png" shape="rounded" radius="16" placeholder="Drop a photo for this category"></image-slot>
+        </div>
+      </section>
+
+      <section style="max-width:900px; margin:0 auto; padding:36px 24px 72px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:18px;">
+          <sc-for list="{{ cat.items }}" as="svc" hint-placeholder-count="3">
+            <a href="service.html?slug={{ svc.slug }}" style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:10px;" style-hover="box-shadow:0 16px 30px -18px oklch(30% 0.02 260 / 0.3); transform:translateY(-2px);">
+              <div style="width:38px; height:38px; border-radius:9px; background:{{ svc.tint }}; display:flex; align-items:center; justify-content:center;">
+                <div style="width:14px; height:14px; border-radius:{{ svc.shape }}; background:{{ svc.dot }};"></div>
+              </div>
+              <div style="font-weight:700; font-size:15.5px; color:oklch(22% 0.02 260);">{{ svc.title }}</div>
+              <div style="font-size:13px; color:oklch(48% 0.02 260); line-height:1.5;">{{ svc.longDesc }}</div>
+              <div style="font-size:13px; font-weight:700; color:oklch(40% 0.13 258); margin-top:4px;">View details →</div>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ notFound }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:700px; margin:0 auto; padding:80px 24px; text-align:center;">
+      <div style="font-weight:800; font-size:24px; margin-bottom:10px;">Category not found</div>
+      <a href="services.html" style="font-weight:700;">← Browse all services</a>
+    </div>
+  </sc-if>
+
+  <footer style="background:oklch(18% 0.015 260); color:oklch(75% 0.02 260); padding:32px 24px; text-align:center; font-size:13px;">
+    <div>© 2026 Tax &amp; Accounting Solutions · <a href="tel:+918860977444" style="color:inherit; font-weight:700;">088609 77444</a></div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SVC = {
+  gst: { slug: "gst-registration-filing", title: "GST Registration & Filing", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "4px", longDesc: "New GST registration and accurate, on-time monthly/quarterly return filing." },
+  itr: { slug: "income-tax-itr-filing", title: "Income Tax / ITR Filing", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "999px", longDesc: "ITR filing for individuals, professionals and businesses with maximum eligible savings." },
+  tds: { slug: "tds-filing", title: "TDS Filing", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "999px", longDesc: "Quarterly TDS return preparation, filing and correction statements." },
+  notice: { slug: "tax-notice-assessment", title: "Tax Notice & Assessment", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "4px", longDesc: "Expert representation and reply drafting for income tax & GST notices." },
+  company: { slug: "company-registration", title: "Company Registration", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "4px", longDesc: "Pvt Ltd, LLP and OPC incorporation with ROC filings included." },
+  msme: { slug: "msme-startup-registration", title: "MSME / Startup Registration", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "999px", longDesc: "Udyam and Startup India registration to unlock schemes & benefits." },
+  trademark: { slug: "trademark-ip", title: "Trademark & IP", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "999px", longDesc: "Trademark search, filing and objection handling to protect your brand." },
+  bookkeeping: { slug: "accounting-bookkeeping", title: "Accounting & Bookkeeping", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "4px", longDesc: "Monthly books, reconciliation and audit-ready financial statements." },
+  payroll: { slug: "payroll-services", title: "Payroll Services", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "999px", longDesc: "Salary processing, PF/ESI and payslips managed every month." },
+  audit: { slug: "auditing", title: "Auditing", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "4px", longDesc: "Statutory, internal and tax audits by qualified professionals." },
+};
+const CATEGORIES = {
+  registration: { name: "Registration", intro: "Everything you need to legally set up and protect your business — company incorporation, MSME/startup benefits, and trademark protection.", items: [SVC.company, SVC.msme, SVC.trademark] },
+  gst: { name: "GST", intro: "Registration and ongoing return filing to keep your GST compliance fully up to date.", items: [SVC.gst] },
+  "income-tax": { name: "Income Tax", intro: "Filing and TDS compliance to keep your tax matters stress-free.", items: [SVC.itr, SVC.tds] },
+  compliance: { name: "Compliance", intro: "Notice handling, assessments and audits to keep your business fully compliant.", items: [SVC.notice, SVC.audit] },
+  accounting: { name: "Accounting", intro: "Bookkeeping and payroll — the financial backbone that keeps your business running smoothly.", items: [SVC.bookkeeping, SVC.payroll] },
+};
+
+class Component extends DCLogic {
+  state = { cat: null };
+  componentDidMount() {
+    const params = new URLSearchParams(window.location.search);
+    this.setState({ cat: params.get("cat") || "registration" });
+  }
+  renderVals() {
+    const cat = CATEGORIES[this.state.cat];
+    return { found: !!cat, notFound: this.state.cat !== null && !cat, cat: cat || CATEGORIES.registration };
+  }
+}
+
+</script>
+</body>
+</html>

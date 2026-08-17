@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Manrope', sans-serif; background: oklch(98% 0.006 75); color: oklch(22% 0.02 260); text-wrap: pretty; }
+  a { color: oklch(40% 0.13 258); text-decoration: none; }
+  a:hover { color: oklch(30% 0.11 258); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .stripe-ph { background: repeating-linear-gradient(135deg, oklch(93% 0.01 260) 0 10px, oklch(96% 0.008 260) 10px 20px); display:flex; align-items:center; justify-content:center; color: oklch(55% 0.02 260); font-family: monospace; font-size: 13px; text-align:center; }
+  .hamburger { display: none; }
+  @media (max-width: 1150px) {
+    .nav-desktop { display: none !important; }
+    .header-cta { display: none !important; }
+    .hamburger { display: flex !important; }
+    .topbar-addr { display: none !important; }
+    .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; padding: 36px 20px 40px !important; }
+    .grid-2 { grid-template-columns: 1fr !important; gap: 28px !important; }
+    .stats-4 { grid-template-columns: repeat(2, 1fr) !important; }
+    .hero-h1 { font-size: 32px !important; }
+    .sec-h2 { font-size: 24px !important; }
+  }
+  @media (max-width: 560px) {
+    .why-grid { grid-template-columns: 1fr !important; }
+    .stats-4 { gap: 12px !important; }
+  }
+</style>
+</helmet>
+
+<div style="max-width:100%; overflow-x:hidden;">
+
+  <div style="background:oklch(30% 0.11 258); color:oklch(96% 0.01 258); font-size:13px; padding:8px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <span>Call <a href="tel:+918860977444" style="color:inherit; font-weight:700;">088609 77444</a></span>
+      <span style="opacity:0.85;">Open · Closes 7 PM</span>
+    </div>
+    <div style="opacity:0.9;" class="topbar-addr">Fusion Homes, Tech Zone IV, Greater Noida W Rd, Noida 201318</div>
+  </div>
+
+  <header style="position:sticky; top:0; z-index:50; background:oklch(100% 0 0 / 0.92); backdrop-filter:blur(8px); border-bottom:1px solid oklch(90% 0.01 260); display:flex; align-items:center; justify-content:space-between; gap:20px; padding:12px 20px; flex-wrap:nowrap;">
+    <a href="#top" style="display:flex; align-items:center; gap:9px; flex-shrink:0; min-width:0;">
+      <div style="width:36px; height:36px; border-radius:9px; background:oklch(40% 0.13 258); display:flex; align-items:center; justify-content:center; color:white; font-weight:800; font-size:13px; flex-shrink:0;">TAS</div>
+      <div style="line-height:1.1; white-space:nowrap;">
+        <div style="font-weight:800; font-size:14.5px; color:oklch(22% 0.02 260); white-space:nowrap;">Tax &amp; Accounting Solutions</div>
+        <div style="font-size:10.5px; color:oklch(50% 0.02 260); letter-spacing:0.04em; white-space:nowrap;">GHAZIABAD · NOIDA</div>
+      </div>
+    </a>
+    <nav style="display:flex; align-items:center; gap:15px; flex-wrap:nowrap; flex:1 1 auto; justify-content:flex-end; min-width:0;" class="nav-desktop">
+      <a href="about.html" style="color:oklch(30% 0.02 260); font-weight:600; font-size:13.5px; white-space:nowrap;">About Us</a>
+      <sc-for list="{{ menuCategories }}" as="cat" hint-placeholder-count="4">
+        <div onMouseEnter="{{ cat.open }}" onMouseLeave="{{ cat.close }}" style="position:relative; z-index:80;">
+          <div onClick="{{ cat.toggle }}" style="color:oklch(30% 0.02 260); font-weight:600; font-size:13.5px; display:flex; align-items:center; gap:4px; white-space:nowrap; padding:8px 2px; cursor:pointer; user-select:none;" style-hover="color:oklch(40% 0.13 258);">{{ cat.name }} <span style="font-size:9px; display:inline-block; transition:transform 0.15s;" style-hover="transform:rotate(180deg);">▾</span></div>
+          <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(0); padding-top:8px; width:230px; display:{{ cat.display }}; opacity:1; transition:opacity 0.15s, transform 0.15s;" style-hover="display:block; opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0);">
+            <div style="position:absolute; top:3px; left:50%; transform:translateX(-50%) rotate(45deg); width:10px; height:10px; background:white; border:1px solid oklch(90% 0.01 260); border-right:none; border-bottom:none;"></div>
+            <div style="position:relative; background:white; border:1px solid oklch(90% 0.01 260); border-radius:12px; box-shadow:0 24px 48px -20px oklch(30% 0.02 260 / 0.35); padding:8px; display:flex; flex-direction:column; gap:1px; overflow:hidden;">
+              <div style="height:3px; background:{{ cat.accent }}; border-radius:2px; margin:2px 4px 6px;"></div>
+              <sc-for list="{{ cat.items }}" as="it" hint-placeholder-count="2">
+                <a href="service.html?slug={{ it.slug }}" style="display:block; padding:9px 10px; font-size:13.5px; font-weight:600; color:oklch(28% 0.02 260); border-radius:7px; white-space:nowrap;" style-hover="background:oklch(96% 0.008 75); color:oklch(40% 0.13 258);">{{ it.title }}</a>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+      <a href="#pricing" style="color:oklch(30% 0.02 260); font-weight:600; font-size:13.5px; white-space:nowrap;">Pricing</a>
+      <a href="#contact" style="color:oklch(30% 0.02 260); font-weight:600; font-size:13.5px; white-space:nowrap;">Contact</a>
+    </nav>
+    <div style="display:flex; gap:8px; flex-shrink:0;" class="header-cta">
+      <a href="{{ waLink }}" target="_blank" style="background:oklch(58% 0.14 150); color:white; font-weight:700; font-size:12.5px; padding:9px 14px; border-radius:8px; display:flex; align-items:center; gap:6px; white-space:nowrap;">WhatsApp</a>
+      <a href="tel:+918860977444" style="background:oklch(40% 0.13 258); color:white; font-weight:700; font-size:12.5px; padding:9px 14px; border-radius:8px; display:flex; align-items:center; gap:6px; white-space:nowrap;">Call Now</a>
+    </div>
+    <div onClick="{{ toggleMobile }}" class="hamburger" style="width:44px; height:44px; border-radius:9px; border:1px solid oklch(88% 0.01 260); align-items:center; justify-content:center; flex-direction:column; gap:4px; cursor:pointer; flex-shrink:0;">
+      <div style="width:18px; height:2px; background:oklch(30% 0.02 260); border-radius:2px;"></div>
+      <div style="width:18px; height:2px; background:oklch(30% 0.02 260); border-radius:2px;"></div>
+      <div style="width:18px; height:2px; background:oklch(30% 0.02 260); border-radius:2px;"></div>
+    </div>
+  </header>
+
+  <div style="display:{{ mobileDisplay }}; position:relative; z-index:49; background:white; border-bottom:1px solid oklch(90% 0.01 260); box-shadow:0 24px 36px -24px oklch(30% 0.02 260 / 0.4); padding:6px 18px 16px; max-height:calc(100vh - 110px); overflow-y:auto;">
+    <a href="about.html" style="display:flex; align-items:center; height:46px; font-size:14.5px; font-weight:700; color:oklch(25% 0.02 260); border-bottom:1px solid oklch(94% 0.01 260);">About Us</a>
+    <sc-for list="{{ menuCategories }}" as="cat" hint-placeholder-count="5">
+      <div style="border-bottom:1px solid oklch(94% 0.01 260);">
+        <div onClick="{{ cat.toggleMobileCat }}" style="display:flex; align-items:center; justify-content:space-between; height:46px; cursor:pointer; user-select:none;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <div style="width:12px; height:3px; border-radius:2px; background:{{ cat.accent }};"></div>
+            <div style="font-size:14.5px; font-weight:700; color:oklch(25% 0.02 260);">{{ cat.name }}</div>
+          </div>
+          <div style="font-size:11px; color:oklch(50% 0.02 260); transform:{{ cat.caret }};">▾</div>
+        </div>
+        <div style="display:{{ cat.mobileDisplay }}; padding:0 0 8px 21px;">
+          <sc-for list="{{ cat.items }}" as="it" hint-placeholder-count="2">
+            <a href="service.html?slug={{ it.slug }}" style="display:flex; align-items:center; min-height:42px; font-size:14px; font-weight:600; color:oklch(35% 0.02 260);">{{ it.title }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+    <a href="#pricing" onClick="{{ toggleMobile }}" style="display:flex; align-items:center; height:46px; font-size:14.5px; font-weight:700; color:oklch(25% 0.02 260); border-bottom:1px solid oklch(94% 0.01 260);">Pricing</a>
+    <a href="#contact" onClick="{{ toggleMobile }}" style="display:flex; align-items:center; height:46px; font-size:14.5px; font-weight:700; color:oklch(25% 0.02 260);">Contact</a>
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <a href="{{ waLink }}" target="_blank" style="flex:1; text-align:center; background:oklch(58% 0.14 150); color:white; font-weight:700; font-size:14px; padding:13px; border-radius:9px;">WhatsApp</a>
+      <a href="tel:+918860977444" style="flex:1; text-align:center; background:oklch(40% 0.13 258); color:white; font-weight:700; font-size:14px; padding:13px; border-radius:9px;">Call Now</a>
+    </div>
+  </div>
+
+  <section id="top" class="hero-grid" style="display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; padding:64px 24px 56px; max-width:1240px; margin:0 auto; align-items:center;">
+    <div style="animation: fadeUp 0.6s ease both;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:oklch(94% 0.02 150); color:oklch(35% 0.1 150); font-weight:700; font-size:13px; padding:6px 14px; border-radius:999px; margin-bottom:20px;">
+        <span>★ 4.8 Rating</span><span style="opacity:0.5;">|</span><span>155+ Reviews on Justdial</span>
+      </div>
+      <h1 class="hero-h1" style="font-size:48px; line-height:1.08; font-weight:800; margin:0 0 18px; letter-spacing:-0.01em;">GST, Tax &amp; Company Compliance — Simplified.</h1>
+      <p style="font-size:18px; line-height:1.6; color:oklch(45% 0.02 260); max-width:520px; margin:0 0 28px;">End-to-end registrations, filings, audits and bookkeeping handled by experienced CAs — fast, transparent, fully compliant. Serving Ghaziabad &amp; Noida businesses.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px;">
+        <sc-for list="{{ heroTags }}" as="tag" hint-placeholder-count="6">
+          <span style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:999px; padding:7px 14px; font-size:13px; font-weight:600; color:oklch(30% 0.02 260);">✓ {{ tag }}</span>
+        </sc-for>
+      </div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="{{ waLink }}" target="_blank" style="background:oklch(40% 0.13 258); color:white; font-weight:700; font-size:15px; padding:14px 26px; border-radius:10px; box-shadow:0 12px 24px -10px oklch(40% 0.13 258 / 0.5);">Request a Callback</a>
+        <a href="tel:+918860977444" style="background:white; border:1.5px solid oklch(88% 0.01 260); color:oklch(22% 0.02 260); font-weight:700; font-size:15px; padding:14px 26px; border-radius:10px;">Call 088609 77444</a>
+      </div>
+    </div>
+
+    <div style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:18px; padding:28px; box-shadow:0 20px 50px -20px oklch(30% 0.02 260 / 0.25); animation: fadeUp 0.6s ease 0.1s both;">
+      <sc-if value="{{ formSubmitted }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center; padding:40px 10px;">
+          <div style="width:56px; height:56px; border-radius:999px; background:oklch(94% 0.02 150); color:oklch(35% 0.1 150); display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 16px;">✓</div>
+          <div style="font-weight:800; font-size:18px; margin-bottom:6px;">Request received!</div>
+          <div style="color:oklch(48% 0.02 260); font-size:14px;">Our team will call you back within business hours.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="font-weight:800; font-size:18px; margin-bottom:4px;">Get a Free Consultation</div>
+          <div style="color:oklch(48% 0.02 260); font-size:13px; margin-bottom:20px;">Tell us what you need — we'll call within the hour.</div>
+          <form onSubmit="{{ handleSubmit }}" style="display:flex; flex-direction:column; gap:12px;">
+            <input required="" type="text" placeholder="Full Name" style="padding:12px 14px; border:1px solid oklch(88% 0.01 260); border-radius:9px; font-size:14px; font-family:inherit;"/>
+            <input required="" type="tel" placeholder="Phone Number" style="padding:12px 14px; border:1px solid oklch(88% 0.01 260); border-radius:9px; font-size:14px; font-family:inherit;"/>
+            <select style="padding:12px 14px; border:1px solid oklch(88% 0.01 260); border-radius:9px; font-size:14px; font-family:inherit; color:oklch(35% 0.02 260);">
+              <option>Select a Service</option>
+              <sc-for list="{{ services }}" as="svc" hint-placeholder-count="10">
+                <option>{{ svc.title }}</option>
+              </sc-for>
+            </select>
+            <button type="submit" style="background:oklch(40% 0.13 258); color:white; font-weight:700; font-size:15px; padding:13px; border:none; border-radius:9px; margin-top:6px; cursor:pointer;">Get Started Now</button>
+            <div style="text-align:center; font-size:12px; color:oklch(52% 0.02 260); margin-top:2px;">100% Secure · No Spam · Quick Response</div>
+          </form>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section class="stats-4" style="max-width:1240px; margin:0 auto; padding:0 24px 64px; display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+    <sc-for list="{{ stats }}" as="stat" hint-placeholder-count="4">
+      <div style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:14px; padding:22px; text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:oklch(40% 0.13 258);">{{ stat.value }}</div>
+        <div style="font-size:13px; color:oklch(48% 0.02 260); font-weight:600; margin-top:4px;">{{ stat.label }}</div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section id="services" style="max-width:1240px; margin:0 auto; padding:20px 24px 72px;">
+    <div style="text-align:center; max-width:640px; margin:0 auto 40px;">
+      <div style="color:oklch(40% 0.13 258); font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">What We Do</div>
+      <h2 class="sec-h2" style="font-size:32px; font-weight:800; margin:0 0 12px;">Comprehensive tax &amp; compliance solutions</h2>
+      <p style="color:oklch(48% 0.02 260); font-size:16px; line-height:1.6;">Everything your business needs to stay registered, compliant, and financially organized — under one roof.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px;">
+      <sc-for list="{{ services }}" as="svc" hint-placeholder-count="10">
+        <a href="service.html?slug={{ svc.slug }}" style="background:white; border:1px solid oklch(90% 0.01 260); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:12px; transition:transform 0.15s;" style-hover="transform:translateY(-3px); box-shadow:0 16px 30px -18px oklch(30% 0.02 260 / 0.3);">
+          <div style="width:44px; height:44px; border-radius:10px; background:{{ svc.tint }}; display:flex; align-items:center; justify-content:center;">
+            <div style="width:16px; height:16px; border-radius:{{ svc.shape }}; background:{{ svc.dot }};"></div>
+          </div>
+          <div style="font-weight:700; font-size:16px; color:oklch(22% 0.02 260);">{{ svc.title }}</div>
+          <div style="font-size:13.5px; color:oklch(48% 0.02 260); line-height:1.55;">{{ svc.desc }}</div>
+          <div style="font-size:13px; font-weight:700; color:oklch(40% 0.13 258); margin-top:auto;">Learn more →</div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="background:oklch(30% 0.11 258); padding:64px 24px;">
+    <div class="grid-2" style="max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;">
+      <div style="color:white;">
+        <div style="color:oklch(78% 0.1 55); font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">Why Choose Us</div>
+        <h2 style="font-size:30px; font-weight:800; margin:0 0 16px;">Not just filers — your compliance partners</h2>
+        <p style="color:oklch(85% 0.02 260); font-size:15px; line-height:1.7;">We combine local expertise with a modern, digital-first process so registrations, filings, and audits move fast without cutting corners.</p>
+      </div>
+      <div class="why-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <sc-for list="{{ whyUs }}" as="w" hint-placeholder-count="4">
+          <div style="background:oklch(35% 0.1 258); border-radius:14px; padding:20px;">
+            <div style="width:34px; height:34px; border-radius:8px; background:oklch(58% 0.14 150); margin-bottom:12px;"></div>
+            <div style="color:white; font-weight:700; font-size:14.5px; margin-bottom:6px;">{{ w.title }}</div>
+            <div style="color:oklch(80% 0.02 260); font-size:12.5px; line-height:1.55;">{{ w.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" style="max-width:1240px; margin:0 auto; padding:72px 24px;">
+    <div style="text-align:center; max-width:640px; margin:0 auto 40px;">
+      <div style="color:oklch(40% 0.13 258); font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">Pricing</div>
+      <h2 class="sec-h2" style="font-size:32px; font-weight:800; margin:0 0 12px;">Simple, transparent packages</h2>
+      <p style="color:oklch(48% 0.02 260); font-size:16px; line-height:1.6;">Starting prices below — final cost depends on your business size &amp; filing history. Request a free quote for exact pricing.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px;">
+      <sc-for list="{{ plans }}" as="plan" hint-placeholder-count="3">
+        <div style="background:white; border-radius:18px; padding:30px; border:{{ plan.border }}; position:relative; box-shadow:{{ plan.shadow }};">
+          <sc-if value="{{ plan.popular }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute; top:-12px; right:24px; background:oklch(62% 0.15 55); color:white; font-size:11.5px; font-weight:800; padding:5px 12px; border-radius:999px;">MOST POPULAR</div>
+          </sc-if>
+          <div style="font-weight:700; font-size:17px; margin-bottom:6px;">{{ plan.name }}</div>
+          <div style="color:oklch(48% 0.02 260); font-size:13px; margin-bottom:18px;">{{ plan.audience }}</div>
+          <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:20px;">
+            <span style="font-size:30px; font-weight:800;">{{ plan.price }}</span>
+            <span style="font-size:13px; color:oklch(52% 0.02 260);">starting</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:24px;">
+            <sc-for list="{{ plan.features }}" as="f" hint-placeholder-count="4">
+              <div style="display:flex; gap:8px; align-items:flex-start; font-size:13.5px; color:oklch(30% 0.02 260);">
+                <span style="color:oklch(58% 0.14 150); font-weight:800;">✓</span><span>{{ f }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <a href="{{ waLink }}" target="_blank" style="display:block; text-align:center; background:{{ plan.btnBg }}; color:{{ plan.btnColor }}; font-weight:700; font-size:14px; padding:12px; border-radius:9px;">Request Quote</a>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="team" style="background:oklch(96% 0.008 75); padding:72px 24px;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <div style="text-align:center; max-width:640px; margin:0 auto 40px;">
+        <div style="color:oklch(40% 0.13 258); font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">Our Team</div>
+        <h2 class="sec-h2" style="font-size:32px; font-weight:800; margin:0 0 12px;">Meet the experts handling your compliance</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:24px;">
+        <sc-for list="{{ team }}" as="member" hint-placeholder-count="3">
+          <div style="background:white; border-radius:16px; border:1px solid oklch(90% 0.01 260); padding:26px; text-align:center;">
+            <image-slot id="{{ member.slotId }}" src="{{ member.img }}" shape="circle" style="width:88px; height:88px; margin:0 auto 16px; display:block;" placeholder="Drop photo"></image-slot>
+            <div style="font-weight:700; font-size:16px;">{{ member.name }}</div>
+            <div style="color:oklch(40% 0.13 258); font-weight:600; font-size:13px; margin:4px 0 10px;">{{ member.role }}</div>
+            <div style="color:oklch(48% 0.02 260); font-size:13px; line-height:1.5;">{{ member.bio }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:900px; margin:0 auto; padding:64px 24px; text-align:center;">
+    <div style="display:inline-flex; align-items:center; gap:14px; background:white; border:1px solid oklch(90% 0.01 260); border-radius:999px; padding:14px 28px; margin-bottom:20px;">
+      <span style="color:oklch(62% 0.15 55); font-size:20px; letter-spacing:2px;">★★★★★</span>
+      <span style="font-weight:800; font-size:17px;">4.8</span>
+      <span style="color:oklch(48% 0.02 260); font-size:14px;">· 155+ Reviews on Justdial</span>
+    </div>
+    <div>
+      <a href="https://www.justdial.com/Ghaziabad/Tax-Accounting-Solutions-Near-Fusion-Homes-Society-Ek-Murti-Chowk-Ek-Murti-Chowk/011PXX11-XX11-230825140019-E2W9_BZDET" target="_blank" style="font-weight:700; font-size:14px;">See all verified reviews on Justdial →</a>
+    </div>
+  </section>
+
+  <section id="contact" style="background:oklch(30% 0.11 258); padding:64px 24px;">
+    <div class="grid-2" style="max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;">
+      <div style="color:white;">
+        <h2 class="sec-h2" style="font-size:30px; font-weight:800; margin:0 0 14px;">Let's sort your compliance today</h2>
+        <p style="color:oklch(85% 0.02 260); font-size:15px; line-height:1.7; margin-bottom:24px;">Visit us, call, or message on WhatsApp — our team responds fast.</p>
+        <div style="display:flex; flex-direction:column; gap:14px; font-size:14.5px; color:oklch(90% 0.02 260);">
+          <div style="display:flex; gap:10px;"><span style="opacity:0.7; font-weight:700; flex-shrink:0;">Address</span><span>Shop FB-116, Fusion Homes Market, Tech Zone IV, Greater Noida W Rd, Noida 201318</span></div>
+          <div style="display:flex; gap:10px;"><span style="opacity:0.7; font-weight:700; flex-shrink:0;">Phone</span><a href="tel:+918860977444" style="color:white; font-weight:700;">088609 77444</a></div>
+          <div style="display:flex; gap:10px;"><span style="opacity:0.7; font-weight:700; flex-shrink:0;">Hours</span><span>Open today · Closes 7 PM</span></div>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:28px;">
+          <a href="{{ waLink }}" target="_blank" style="background:oklch(58% 0.14 150); color:white; font-weight:700; font-size:14px; padding:12px 20px; border-radius:9px;">Chat on WhatsApp</a>
+          <a href="tel:+918860977444" style="background:white; color:oklch(30% 0.11 258); font-weight:700; font-size:14px; padding:12px 20px; border-radius:9px;">Call Now</a>
+        </div>
+      </div>
+      <iframe title="Office location map" src="https://maps.google.com/maps?q=Fusion%20Homes%20FB-116%20Tech%20Zone%20IV%20Greater%20Noida%20201318&z=15&output=embed" style="width:100%; height:280px; border:0; border-radius:16px; box-shadow:0 20px 40px -20px oklch(20% 0.02 260 / 0.5);" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <footer style="background:oklch(18% 0.015 260); color:oklch(75% 0.02 260); padding:40px 24px 24px;">
+    <div style="max-width:1240px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; font-size:13.5px;">
+      <div style="max-width:320px;">
+        <div style="color:white; font-weight:800; font-size:16px; margin-bottom:10px;">Tax &amp; Accounting Solutions</div>
+        <div style="line-height:1.6;">Reliable GST, income tax, company registration and accounting services for businesses across Ghaziabad &amp; Noida.</div>
+      </div>
+      <div style="display:flex; gap:48px; flex-wrap:wrap;">
+        <div>
+          <div style="color:white; font-weight:700; margin-bottom:10px;">Quick Links</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <a href="#services" style="color:inherit;">Services</a>
+            <a href="#pricing" style="color:inherit;">Pricing</a>
+            <a href="#team" style="color:inherit;">Team</a>
+            <a href="services.html" style="color:inherit;">All Services</a>
+          </div>
+        </div>
+        <div>
+          <div style="color:white; font-weight:700; margin-bottom:10px;">Contact</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <a href="tel:+918860977444" style="color:inherit;">088609 77444</a>
+            <span>Fusion Homes, Tech Zone IV, Noida</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1240px; margin:32px auto 0; padding-top:20px; border-top:1px solid oklch(30% 0.015 260); font-size:12.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <span>© 2026 Tax &amp; Accounting Solutions. All Rights Reserved.</span>
+      <span>Ratings sourced from Justdial listing</span>
+    </div>
+  </footer>
+
+  <sc-if value="{{ showFab }}" hint-placeholder-val="{{ false }}">
+    <a href="{{ waLink }}" target="_blank" style="position:fixed; bottom:22px; right:22px; width:56px; height:56px; border-radius:999px; background:oklch(58% 0.14 150); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px -8px oklch(30% 0.1 150 / 0.5); z-index:60; transition:opacity 0.2s;">
+      <div style="width:24px; height:24px; border-radius:6px; background:white;"></div>
+    </a>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { formSubmitted: false, showFab: false, openMenu: null, mobileOpen: false, mobileCat: null };
+
+  toggleMobile = () => this.setState(s => ({ mobileOpen: !s.mobileOpen }));
+
+  toggleMobileCat = (slug) => () => this.setState(s => ({ mobileCat: s.mobileCat === slug ? null : slug }));
+
+  toggleMenu = (slug) => (e) => {
+    e.preventDefault();
+    this.setState(s => ({ openMenu: s.openMenu === slug ? null : slug }));
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({ formSubmitted: true });
+  };
+
+  componentDidMount() {
+    this.onScroll = () => {
+      const shouldShow = window.scrollY > (window.innerHeight * 0.7);
+      if (shouldShow !== this.state.showFab) this.setState({ showFab: shouldShow });
+    };
+    window.addEventListener("scroll", this.onScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
+  }
+
+  renderVals() {
+    const services = [
+      { slug: "gst-registration-filing", title: "GST Registration & Filing", desc: "New GST registration, monthly/quarterly returns filed accurately and on time.", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "4px" },
+      { slug: "income-tax-itr-filing", title: "Income Tax / ITR Filing", desc: "ITR filing for individuals, professionals and businesses with maximum eligible savings.", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "999px" },
+      { slug: "company-registration", title: "Company Registration", desc: "Pvt Ltd, LLP and OPC incorporation handled end-to-end, ROC filings included.", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "4px" },
+      { slug: "trademark-ip", title: "Trademark & IP", desc: "Trademark search, filing, and objection handling to protect your brand.", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "999px" },
+      { slug: "accounting-bookkeeping", title: "Accounting & Bookkeeping", desc: "Day-to-day books, reconciliation and financial statements kept audit-ready.", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "4px" },
+      { slug: "payroll-services", title: "Payroll Services", desc: "Salary processing, PF/ESI and payslips managed accurately every month.", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "999px" },
+      { slug: "auditing", title: "Auditing", desc: "Statutory, internal and tax audits conducted by qualified professionals.", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "4px" },
+      { slug: "tds-filing", title: "TDS Filing", desc: "TDS return preparation, filing and correction — no late fees, no errors.", tint: "oklch(93% 0.03 150)", dot: "oklch(58% 0.14 150)", shape: "999px" },
+      { slug: "msme-startup-registration", title: "MSME / Startup Registration", desc: "MSME Udyam and Startup India registration to unlock benefits & schemes.", tint: "oklch(93% 0.03 55)", dot: "oklch(62% 0.15 55)", shape: "4px" },
+      { slug: "tax-notice-assessment", title: "Tax Notice & Assessment", desc: "Expert representation and reply drafting for income tax & GST notices.", tint: "oklch(93% 0.03 258)", dot: "oklch(40% 0.13 258)", shape: "999px" },
+    ];
+    return {
+      waLink: "https://wa.me/918860977444?text=Hello%2C%20I%20need%20help%20with%20GST%2FTax%20services",
+      menuCategories: [
+        { slug: "registration", name: "Registration", accent: "oklch(62% 0.15 55)", items: [services[2], services[8], services[3]] },
+        { slug: "gst", name: "GST", accent: "oklch(40% 0.13 258)", items: [services[0]] },
+        { slug: "income-tax", name: "Income Tax", accent: "oklch(58% 0.14 150)", items: [services[1], services[7]] },
+        { slug: "compliance", name: "Compliance", accent: "oklch(58% 0.14 150)", items: [services[9], services[6]] },
+        { slug: "accounting", name: "Accounting", accent: "oklch(62% 0.15 55)", items: [services[4], services[5]] },
+      ].map(c => ({
+        ...c,
+        display: this.state.openMenu === c.slug ? "block" : "none",
+        mobileDisplay: this.state.mobileCat === c.slug ? "block" : "none",
+        caret: this.state.mobileCat === c.slug ? "rotate(180deg)" : "none",
+        toggleMobileCat: this.toggleMobileCat(c.slug),
+        toggle: this.toggleMenu(c.slug),
+        open: () => this.setState({ openMenu: c.slug }),
+        close: () => this.setState(s => (s.openMenu === c.slug ? { openMenu: null } : null)),
+      })),
+      heroTags: ["GST Filing", "ITR Filing", "Company Setup", "Trademark", "Payroll", "Auditing"],
+      stats: [
+        { value: "4.8★", label: "Justdial Rating" },
+        { value: "155+", label: "Verified Reviews" },
+        { value: "10+", label: "Core Services" },
+        { value: "100%", label: "Compliance Focus" },
+      ],
+      services,
+      whyUs: [
+        { title: "Client-First Support", desc: "Dedicated experts who understand your business." },
+        { title: "Fast & Digital Process", desc: "Quick online processing, no unnecessary delays." },
+        { title: "End-to-End Service", desc: "Registration to compliance, all in one place." },
+        { title: "Transparent Pricing", desc: "No hidden costs — quotes given upfront." },
+      ],
+      plans: [
+        { name: "Starter", audience: "Individuals & sole proprietors", price: "₹999", features: ["GST or ITR filing (1 return)", "Basic document review", "Email support"], border: "1px solid oklch(90% 0.01 260)", shadow: "none", btnBg: "white", btnColor: "oklch(30% 0.11 258)", popular: false },
+        { name: "Growth", audience: "Small businesses & startups", price: "₹2,999", features: ["Monthly GST filing", "Quarterly ITR & TDS", "Bookkeeping support", "Priority WhatsApp support"], border: "2px solid oklch(40% 0.13 258)", shadow: "0 20px 40px -20px oklch(40% 0.13 258 / 0.35)", btnBg: "oklch(40% 0.13 258)", btnColor: "white", popular: true },
+        { name: "Enterprise", audience: "Growing companies", price: "₹7,999", features: ["Full accounting & payroll", "Audit support", "Company compliance (ROC)", "Dedicated CA manager"], border: "1px solid oklch(90% 0.01 260)", shadow: "none", btnBg: "white", btnColor: "oklch(30% 0.11 258)", popular: false },
+      ],
+      team: [
+        { slotId: "team-1", img: "img/team-1.png", name: "CA Ankit Sharma", role: "Founder & Chartered Accountant", bio: "10+ years in GST, tax and corporate compliance." },
+        { slotId: "team-2", img: "img/team-2.png", name: "Priya Verma", role: "Senior Tax Consultant", bio: "Specializes in ITR filing and income tax assessments." },
+        { slotId: "team-3", img: "img/team-3.png", name: "Rohit Malik", role: "Compliance Manager", bio: "Handles company registration and ROC filings." },
+      ],
+      formSubmitted: this.state.formSubmitted,
+      notSubmitted: !this.state.formSubmitted,
+      handleSubmit: this.handleSubmit,
+      showFab: this.state.showFab,
+      toggleMobile: this.toggleMobile,
+      mobileDisplay: this.state.mobileOpen ? "block" : "none",
+    };
+  }
+}
+
+</script>
+</body>
+</html>
